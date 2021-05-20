@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                 myDBHandler.deleteContact(item.groupId)
                 contactArrayList.clear()
                 contactArrayList = myDBHandler.getAllContacts()
-                recyclerAdapter = RecyclerViewAdapter(this, contactArrayList)
+                recyclerAdapter = RecyclerViewAdapter(this,  contactArrayList.sortedBy { it.name })
                 contactRecyclerView.adapter = recyclerAdapter
                 true
             }
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         contactArrayList.clear()
         contactArrayList = myDBHandler.getAllContacts()
-        recyclerAdapter = RecyclerViewAdapter(this, contactArrayList)
+        recyclerAdapter = RecyclerViewAdapter(this,  contactArrayList.sortedBy { it.name })
         contactRecyclerView.adapter = recyclerAdapter
         super.onResume()
     }
