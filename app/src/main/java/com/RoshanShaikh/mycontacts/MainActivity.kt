@@ -1,5 +1,6 @@
 package com.RoshanShaikh.mycontacts
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         recyclerAdapter.notifyDataSetChanged()
         contactRecyclerView.adapter = recyclerAdapter
 
-        registerForContextMenu(contactRecyclerView);
+        registerForContextMenu(contactRecyclerView)
         add_contact.setOnClickListener {
             intent.putExtra("passingId", false)
             val intent = Intent(this, ContactDisplayActivity::class.java)
@@ -41,11 +42,28 @@ class MainActivity : AppCompatActivity() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             1222 -> {
-                myDBHandler.deleteContact(item.groupId)
-                contactArrayList.clear()
-                contactArrayList = myDBHandler.getAllContacts()
-                recyclerAdapter = RecyclerViewAdapter(this,  contactArrayList.sortedBy { it.name })
-                contactRecyclerView.adapter = recyclerAdapter
+                val builder: AlertDialog.Builder = this.let {
+                    AlertDialog.Builder(it)
+                }
+                builder.apply {
+                    setPositiveButton(
+                        "Delete"
+                    ) { _, _ ->
+                        myDBHandler.deleteContact(item.groupId)
+                        contactArrayList.clear()
+                        contactArrayList = myDBHandler.getAllContacts()
+                        recyclerAdapter = RecyclerViewAdapter(this@MainActivity, contactArrayList.sortedBy { it.name })
+                        contactRecyclerView.adapter = recyclerAdapter
+                    }
+                    setNeutralButton("Cancel") { _, _ ->
+                    }
+                    setCancelable(true)
+                    setMessage("Delete this Contact?")
+                }
+                val alertDialog = this.let {
+                    builder.create()
+                }
+                alertDialog.show()
                 true
             }
             else -> super.onContextItemSelected(item)
@@ -55,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         contactArrayList.clear()
         contactArrayList = myDBHandler.getAllContacts()
-        recyclerAdapter = RecyclerViewAdapter(this,  contactArrayList.sortedBy { it.name })
+        recyclerAdapter = RecyclerViewAdapter(this, contactArrayList.sortedBy { it.name })
         contactRecyclerView.adapter = recyclerAdapter
         super.onResume()
     }

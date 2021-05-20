@@ -182,6 +182,8 @@ class ContactDisplayActivity : AppCompatActivity() {
             setNegativeButton("Discard") { _, _ ->
                 NavUtils.navigateUpFromSameTask(this@ContactDisplayActivity)
             }
+            setNeutralButton("Cancel") { _, _ ->
+            }
             setCancelable(true)
         }
         if (passingId) {
