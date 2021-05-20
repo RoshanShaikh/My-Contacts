@@ -4,20 +4,16 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import com.RoshanShaikh.mycontacts.model.Contact
 import com.RoshanShaikh.mycontacts.params.Params
 
 
 class MyDBHandler(context: Context) :
     SQLiteOpenHelper(context, Params.DB_NAME, null, Params.DB_VERSION) {
-    private val logTag = "MyDBHandler"
     override fun onCreate(db: SQLiteDatabase?) {
         val createQuery =
             "CREATE TABLE ${Params.TABLE_NAME}(${Params.KEY_ID} INTEGER PRIMARY KEY, " +
                     "${Params.KEY_NAME} TEXT, ${Params.KEY_PHONE} TEXT)"
-
-        Log.d(logTag, "Query being run is : $createQuery")
         db?.execSQL(createQuery)
     }
 
@@ -33,8 +29,6 @@ class MyDBHandler(context: Context) :
 
         db.insert(Params.TABLE_NAME, null, values)
         db.close()
-
-        Log.d(logTag, "Inserted ${contact.phoneNumber} as ${contact.name}")
     }
 
     fun getAllContacts(): ArrayList<Contact> {
