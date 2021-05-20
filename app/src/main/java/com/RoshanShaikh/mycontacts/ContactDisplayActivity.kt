@@ -195,7 +195,7 @@ class ContactDisplayActivity : AppCompatActivity() {
                 }
                 alertDialog!!.show()
             } else
-                NavUtils.navigateUpFromSameTask(this)
+                super.onBackPressed()
         } else {
             if (save.visibility == View.VISIBLE) {
                 builder.setMessage("Do You Want to Save The Contact?")
@@ -205,7 +205,7 @@ class ContactDisplayActivity : AppCompatActivity() {
                 }
                 alertDialog!!.show()
             } else
-                NavUtils.navigateUpFromSameTask(this)
+                super.onBackPressed()
         }
     }
 
