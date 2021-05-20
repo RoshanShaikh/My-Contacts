@@ -68,7 +68,9 @@ class ContactDisplayActivity : AppCompatActivity() {
 
             val db = MyDBHandler(this)
             contact = db.getContact(id)
-            nameTxt.setText(contact.name)
+            if (contact.name != contact.phoneNumber) {
+                nameTxt.setText(contact.name)
+            }
             numberTxt.setText(contact.phoneNumber)
         }
 
@@ -87,7 +89,10 @@ class ContactDisplayActivity : AppCompatActivity() {
             override fun run() {
                 if (passingId) {
                     //  if contact's name name or number is changed then making the update button visible
-                    if (contact.name != nameTxt.text.toString() || contact.phoneNumber != numberTxt.text.toString()) {
+                    if (
+                        (contact.name != nameTxt.text.toString() && contact.name != contact.phoneNumber)
+                        || contact.phoneNumber != numberTxt.text.toString()
+                    ) {
                         save.visibility = View.VISIBLE
                     } else {
                         save.visibility = View.GONE
@@ -129,7 +134,7 @@ class ContactDisplayActivity : AppCompatActivity() {
             val phoneNumber = numberTxt.text.toString()
             if (phoneNumber.isNotEmpty()) {
                 if (name.isEmpty()) {
-                    name = ""
+                    name = phoneNumber
                 }
                 db.createContact(Contact(id, name, phoneNumber))
                 NavUtils.navigateUpFromSameTask(this)
@@ -165,30 +170,40 @@ class ContactDisplayActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val name: String = nameTxt.text.toString()
-        val phoneNumber = numberTxt.text.toString()
+        val builder: AlertDialog.Builder = this.let {
+            AlertDialog.Builder(it)
+        }
+        builder.apply {
+            setPositiveButton(
+                "Save"
+            ) { _, _ ->
+                saveContact()
+            }
+            setNegativeButton("Discard") { _, _ ->
+                NavUtils.navigateUpFromSameTask(this@ContactDisplayActivity)
+            }
+            setCancelable(true)
+        }
         if (passingId) {
-            if (name != contact.name || phoneNumber != contact.phoneNumber) {
+            if (save.visibility == View.VISIBLE) {
+                builder.setMessage("Do You Want to Update The Contact?")
+                builder.create()
                 val alertDialog: AlertDialog? = this.let {
-                    val builder = AlertDialog.Builder(it)
-                    builder.apply {
-                        setPositiveButton(
-                            "Save"
-                        ) { _, _ ->
-                            saveContact()
-                        }
-                        setNegativeButton(
-                            "Discard"
-                        ) { _, _ ->
-                            NavUtils.navigateUpFromSameTask(this@ContactDisplayActivity)
-                        }
-                        setTitle("Do You Want to Update the Contact?")
-                        setCancelable(true)
-                    }
                     builder.create()
                 }
                 alertDialog!!.show()
-            }
+            } else
+                NavUtils.navigateUpFromSameTask(this)
+        } else {
+            if (save.visibility == View.VISIBLE) {
+                builder.setMessage("Do You Want to Save The Contact?")
+                builder.create()
+                val alertDialog: AlertDialog? = this.let {
+                    builder.create()
+                }
+                alertDialog!!.show()
+            } else
+                NavUtils.navigateUpFromSameTask(this)
         }
     }
 
