@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
+import androidx.core.content.ContextCompat
 import com.RoshanShaikh.mycontacts.data.MyDBHandler
 import com.RoshanShaikh.mycontacts.model.Contact
 import kotlinx.android.synthetic.main.activity_contact_display.*
@@ -24,6 +25,8 @@ class ContactDisplayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_display)
+        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this,R.color.primaryColor))
+
         // getting the intent
         val intent = intent
 
@@ -59,6 +62,7 @@ class ContactDisplayActivity : AppCompatActivity() {
 
         //if passingId = true -> Editing existing contact
         if (passingId) {
+            supportActionBar?.title = "Edit Contact"
 
             call.visibility = View.VISIBLE  // making the call button visible
 
@@ -77,6 +81,7 @@ class ContactDisplayActivity : AppCompatActivity() {
         //if passingId = false -> creating new contact
         else {
 
+            supportActionBar?.title = "New Contact"
             call.visibility = View.GONE // making the call button
 
             // requesting focus for the name edit text and showing the keyboard

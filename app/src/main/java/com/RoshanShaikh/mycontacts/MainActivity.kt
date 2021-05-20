@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.RoshanShaikh.mycontacts.adapter.RecyclerViewAdapter
 import com.RoshanShaikh.mycontacts.data.MyDBHandler
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this,R.color.primaryColor))
 
         contactRecyclerView.setHasFixedSize(true)
         contactRecyclerView.layoutManager = LinearLayoutManager(this)
