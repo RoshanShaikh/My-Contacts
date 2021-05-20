@@ -115,6 +115,10 @@ class ContactDisplayActivity : AppCompatActivity() {
         handler.post(run)
     }
 
+    /**
+     * creates a new contact
+     * updates the contact if contact already exist
+     */
     private fun saveContact() {
 
         //  updating the existing contact
@@ -142,6 +146,11 @@ class ContactDisplayActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * starting a dialer activity with given number
+     * @param context - context of activity
+     * @param number - to be pasted in dialer
+     */
     private fun startDialerActivity(context: Context, number: String) {
         val u: Uri = Uri.parse("tel:$number")
         val intent = Intent(Intent.ACTION_DIAL, u)

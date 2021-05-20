@@ -36,6 +36,9 @@ class RecyclerViewAdapter(val context: Context, val contactList: List<Contact>) 
         holder.itemView.number.text = contact.phoneNumber
     }
 
+    /**
+     * @return the number of elements in the Adapter
+     */
     override fun getItemCount(): Int {
         return contactList.count()
     }
@@ -48,7 +51,7 @@ class RecyclerViewAdapter(val context: Context, val contactList: List<Contact>) 
             itemView.image.setOnClickListener(this)
             itemView.setOnCreateContextMenuListener(this)
             itemView.call.setOnClickListener {
-                startDialerActivity(context,itemView.number.text.toString())
+                startDialerActivity(context, itemView.number.text.toString())
                 val u: Uri = Uri.parse("tel:" + itemView.number.text.toString())
                 val intent = Intent(Intent.ACTION_DIAL, u)
                 try {
@@ -87,7 +90,12 @@ class RecyclerViewAdapter(val context: Context, val contactList: List<Contact>) 
 
     }
 
-     private fun startDialerActivity(context: Context, number: String) {
+    /**
+     * starting a dialer activity with given number
+     * @param context - context of activity
+     * @param number - to be pasted in dialer
+     */
+    private fun startDialerActivity(context: Context, number: String) {
         val u: Uri = Uri.parse("tel:$number")
         val intent = Intent(Intent.ACTION_DIAL, u)
         try {

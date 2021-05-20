@@ -20,6 +20,10 @@ class MyDBHandler(context: Context) :
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
     }
 
+    /**
+     * Creates a new Contact
+     * @param contact contact to be added
+     */
     fun createContact(contact: Contact) {
         val db = this.writableDatabase
 
@@ -31,6 +35,9 @@ class MyDBHandler(context: Context) :
         db.close()
     }
 
+    /**
+     * @return ArrayList (type Contact) of All the records(Contacts) in database
+     */
     fun getAllContacts(): ArrayList<Contact> {
         val contactList = ArrayList<Contact>()
 
@@ -52,7 +59,11 @@ class MyDBHandler(context: Context) :
         cursor.close()
         return contactList
     }
-
+    /**
+     * To update contact in database
+     * @param contact -  updated Contact having same id to change
+     * @return the number of rows affected
+     */
     fun updateContact(contact: Contact): Int {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -68,35 +79,18 @@ class MyDBHandler(context: Context) :
         )
     }
 
-    fun updateContact(
-        contact: Contact,
-        parameterToChange: String,
-        isNameGivenAsParameterToChange: Boolean
-    ): Int {
-        val db = this.writableDatabase
-
-        val values = ContentValues()
-        values.put(Params.KEY_NAME, contact.name)
-        values.put(Params.KEY_PHONE, contact.phoneNumber)
-
-        return db.update(
-            Params.TABLE_NAME,
-            values, (
-                    if (isNameGivenAsParameterToChange)
-                        Params.KEY_NAME
-                    else
-                        Params.KEY_PHONE)
-                    + "=?",
-            arrayOf(java.lang.String.valueOf(parameterToChange))
-        )
-    }
-
+    /**
+     * @param id - the id of the record(Contact) to be deleted
+     */
     fun deleteContact(id: Int) {
         val db = this.writableDatabase
         db.delete(Params.TABLE_NAME, Params.KEY_ID + "=?", arrayOf(java.lang.String.valueOf(id)))
         db.close()
     }
 
+    /**
+     * @return number of records available in database
+     */
     fun getCount(): Int {
         val query = "SELECT * FROM ${Params.TABLE_NAME}"
         val db = readableDatabase
@@ -106,6 +100,10 @@ class MyDBHandler(context: Context) :
         return count
     }
 
+    /**
+     * @param id - id of the contact that need to be returned
+     * @return contact with id given as argument
+     */
     fun getContact(id: Int): Contact {
         val db = readableDatabase
         val query = "SELECT * FROM ${Params.TABLE_NAME} WHERE id = $id"
