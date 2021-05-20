@@ -9,13 +9,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="5dp">
+        android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginStart="5dp"
             android:contentDescription="@string/contact_image"
             android:src="@mipmap/ic_user"
             app:civ_border_color="#FF000000"

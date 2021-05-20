@@ -46,7 +46,7 @@ class RecyclerViewAdapter(val context: Context, val contactList: List<Contact>) 
         init {
             itemView.setOnClickListener(this)
             itemView.image.setOnClickListener(this)
-            itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnCreateContextMenuListener(this)
             itemView.call.setOnClickListener {
                 startDialerActivity(context,itemView.number.text.toString())
                 val u: Uri = Uri.parse("tel:" + itemView.number.text.toString())
