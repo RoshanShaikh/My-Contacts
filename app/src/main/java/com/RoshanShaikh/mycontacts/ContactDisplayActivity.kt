@@ -1,5 +1,6 @@
 package com.RoshanShaikh.mycontacts
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -92,8 +93,7 @@ class ContactDisplayActivity : AppCompatActivity() {
                         save.visibility = View.GONE
                     }
 
-                }
-                else {
+                } else {
                     val phoneNumber = numberTxt.text.toString()
 
                     // if contact number is not Empty then showing the save button
@@ -165,7 +165,31 @@ class ContactDisplayActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        NavUtils.navigateUpFromSameTask(this)
+        val name: String = nameTxt.text.toString()
+        val phoneNumber = numberTxt.text.toString()
+        if (passingId) {
+            if (name != contact.name || phoneNumber != contact.phoneNumber) {
+                val alertDialog: AlertDialog? = this.let {
+                    val builder = AlertDialog.Builder(it)
+                    builder.apply {
+                        setPositiveButton(
+                            "Save"
+                        ) { _, _ ->
+                            saveContact()
+                        }
+                        setNegativeButton(
+                            "Discard"
+                        ) { _, _ ->
+                            NavUtils.navigateUpFromSameTask(this@ContactDisplayActivity)
+                        }
+                        setTitle("Do You Want to Update the Contact?")
+                        setCancelable(true)
+                    }
+                    builder.create()
+                }
+                alertDialog!!.show()
+            }
+        }
     }
 
     /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
