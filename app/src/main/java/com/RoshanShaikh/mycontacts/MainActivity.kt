@@ -12,7 +12,6 @@ import com.RoshanShaikh.mycontacts.model.Contact
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private val logTag = "MainActivity"
     private val myDBHandler = MyDBHandler(this)
     private lateinit var contactArrayList: ArrayList<Contact>
     private lateinit var recyclerAdapter: RecyclerViewAdapter
